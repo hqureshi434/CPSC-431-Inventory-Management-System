@@ -8,8 +8,8 @@
 [Project] (http://ecs.fullerton.edu/~cs431s1/P1/)
 
 ### Introduction
-The goal of the assignment is to create an online Inventory Management System (IMS) for retailers. 
-#### Use-cases:
+The goal of the project is to create an online Inventory Management System (IMS) for retailers. 
+#### Use-cases
 1. Add new Item Record to the Inventory Management System
 	1. Actor(s):
 		1. Procurement
