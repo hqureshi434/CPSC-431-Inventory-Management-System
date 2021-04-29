@@ -18,20 +18,20 @@
 
     <div class="container" style="margin-top: 25px; max-width: 480px;">
       <h3>Please Log In</h3>
-      <form action="./#" method="post" enctype="multipart/form-data">
-        <div class="form-group" style="padding: 6px;">
-          <label for="Email">Email:</label>
-          <input type="text" class="form-control" name="Email" id="Email">
-        </div>
-        <div class="form-group" style="padding: 6px;">
-          <label for="password">Password:</label>
-          <input type="text" class="form-control" name="password" id="password">
-        </div>
-        <div class="form-group text-center" style="padding: 6px;">
-          <button type="submit" class="btn btn-primary" name="logInBtn">Log In</button>
-          <button type="reset" class="btn btn-primary">Reset</button>
-        </div>
-      </form>
+        <form action="./login.php" method="post" enctype="multipart/form-data">
+          <div class="form-group" style="padding: 6px;">
+            <label for="userName">Username:</label>
+            <input type="text" class="form-control" name="userName" id="userName">
+          </div>
+          <div class="form-group" style="padding: 6px;">
+            <label for="password">Password:</label>
+            <input type="text" class="form-control" name="password" id="password">
+          </div>
+          <div class="form-group text-center" style="padding: 6px;">
+            <button type="submit" class="btn btn-primary" name="loginBtn">Log In</button>
+            <button type="reset" class="btn btn-primary">Reset</button>
+          </div>
+        </form>
     </div>
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
