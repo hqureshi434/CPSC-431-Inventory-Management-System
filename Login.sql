@@ -1,7 +1,8 @@
 CREATE TABLE IMSlogin
 ( 
   userEmail varchar(40) not null primary key,
-  userPassword char(40) not null
+  userPassword char(40) not null,
+  userCategory varchar(40) not null
 );
 
 CREATE TABLE IMSitem
