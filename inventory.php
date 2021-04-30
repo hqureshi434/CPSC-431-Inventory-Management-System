@@ -16,13 +16,45 @@
       <p>Created by Adam Laviguer and Hammad Qureshi</p>
     </div>
 
-    <!-- <div class="container text-center" style="margin-top: 25px; max-width: 480px;">
-      <h3>Click <a href="./login.php">here</a> to log in.</h3>
-    </div> -->
-
-    <div class="container text-center" style="margin-top: 25px; max-width: 480px;">
-      <h3>You are logged in as Inventory.</h3>
-    </div>
+    <?php
+      session_start();
+      echo $_SESSION['userType'];
+      if ($_SESSION['userType'] != "inventory") {
+        echo "<div class=\"container text-center\" style=\"margin-top: 25px; max-width: 480px;\">
+                <h3>You do not have access to that page.<br>Click <a href=\"./index.php\">here</a> to log in.</h3>
+              </div>";
+      }
+      else { ?>
+      <div class="container" style="margin-top: 25px;">
+        <div class="container d-flex justify-content-end" style="margin-top: 25px;">
+          <input class="btn btn-primary" style="margin: 15px;" type="submit" value="Add New Item">
+          <input class="btn btn-primary" style="margin: 15px;" type="submit" value="Change Item Qty">
+          <input class="btn btn-primary" style="margin: 15px;" type="submit" value="Change Item Price">
+        </div>
+        <div class="container" style="margin-top: 25px;">
+          <div class="container border border-dark shadow bg-body rounded" style="margin-top: 25px;">
+            <div class="row" style="margin: 10px; padding-bottom: 5px;">
+              <div class="col-sm">
+                <p>Item Name</p>
+              </div>
+              <div class="col-sm">
+                <label for="itemQty" class="form-label">Quantity</label>
+                <input type="text" class="form-control" id="itemQty" value="0.0" required>
+              </div>
+              <div class="col-sm">
+                <label for="itemPrice" class="form-label">Price</label>
+                <input type="text" class="form-control" id="itemPrice" value="$0.00" required>
+              </div>
+              <div class="col-sm text-end">
+                <p>Picture</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> 
+    <?php
+      }
+    ?>
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
