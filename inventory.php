@@ -27,9 +27,10 @@
       else { ?>
       <div class="container" style="margin-top: 25px;">
         <div class="container d-flex justify-content-end" style="margin-top: 25px;">
-          <input class="btn btn-primary" style="margin: 15px;" type="submit" value="Add New Item" disabled>
-          <input class="btn btn-primary" style="margin: 15px;" type="submit" value="Change Item Qty">
-          <input class="btn btn-primary" style="margin: 15px;" type="submit" value="Change Item Price" disabled>
+          <input class="btn btn-primary" style="margin: 15px;" type="submit" value="Add New Item" id="inputItem" disabled>\
+          <!-- on click of the button immediately below -->
+          <input class="btn btn-primary" style="margin: 15px;" type="submit" value="Change Item Qty" id="inputQty">
+          <input class="btn btn-primary" style="margin: 15px;" type="submit" value="Change Item Price" id="inputPrice" disabled>
         </div>
         <div class="container" style="margin-top: 25px;">
           <div class="container border border-dark shadow bg-body rounded" style="margin-top: 25px;">
@@ -54,6 +55,10 @@
       </div> 
     <?php
       }
+
+      //TODO: add code for submitting quantity changes (input from id="itemQty") to the database
+      // on click of "inputQty" button, submit query to DB which updates the item qty with the value in the "itemQty" field
+
     ?>
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
