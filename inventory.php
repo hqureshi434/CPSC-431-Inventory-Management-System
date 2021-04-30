@@ -16,9 +16,22 @@
       <p>Created by Adam Laviguer and Hammad Qureshi</p>
     </div>
 
+    <div class="container text-end" style="margin-top: 25px;">
+      <div class="dropdow dropend">
+        <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+          <?php 
+            session_start();
+            echo $_SESSION['userName'];
+          ?>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton1">
+          <li><a class="dropdown-item" href="./index.php" type="" id="logout">Log out</a></li>
+        </ul>
+      </div>
+    </div>
+
     <?php
       session_start();
-      echo $_SESSION['userType'];
       if ($_SESSION['userType'] != "inventory") {
         echo "<div class=\"container text-center\" style=\"margin-top: 25px; max-width: 480px;\">
                 <h3>You do not have access to that page.<br>Click <a href=\"./index.php\">here</a> to log in.</h3>
@@ -27,7 +40,7 @@
       else { ?>
       <div class="container" style="margin-top: 25px;">
         <div class="container d-flex justify-content-end" style="margin-top: 25px;">
-          <input class="btn btn-primary" style="margin: 15px;" type="submit" value="Add New Item" id="inputItem" disabled>\
+          <input class="btn btn-primary" style="margin: 15px;" type="submit" value="Add New Item" id="inputItem" disabled>
           <!-- on click of the button immediately below -->
           <input class="btn btn-primary" style="margin: 15px;" type="submit" value="Change Item Qty" id="inputQty">
           <input class="btn btn-primary" style="margin: 15px;" type="submit" value="Change Item Price" id="inputPrice" disabled>

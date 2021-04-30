@@ -11,6 +11,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <!-- JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 
@@ -21,6 +24,11 @@
       <h1>Inventory Management System</h1>
       <p>Created by Adam Laviguer and Hammad Qureshi</p>
     </div>
+    <script>
+      $(document).ready(function(){
+          $("#exampleModal").modal('show');
+      });
+    </script>
 
     <div class="container" style="margin-top: 25px; max-width: 480px;">
       <?php
@@ -52,32 +60,49 @@
             throw new Exception('Could not log you in.');
           }
           if ($result->num_rows>0) {
-            echo 'Success<br>';
             session_start();
             while($row = $result->fetch_assoc()) {
               if ($row['userType'] == "Inventory") {
                 header("Location: ./inventory.php");
                 $_SESSION['userType'] = 'inventory';
+                $_SESSION['userName'] = $userName;
                 exit();
               }
               if ($row['userType'] == "Manager") {
                 header("Location: ./manager.php");
                 $_SESSION['userType'] = 'manager';
+                $_SESSION['userName'] = $userName;
                 exit();
               }
               if ($row['userType'] == "Procurement") {
                 header("Location: ./procurement.php");
                 $_SESSION['userType'] = 'procurement';
+                $_SESSION['userName'] = $userName;
                 exit();
               }
             }
-
           } 
-          else {
-            throw new Exception('Could not log you in.');
+          else { ?>
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"  data-bs-backdrop="static">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Error</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    Please try logging in again.
+                  </div>
+                  <div class="modal-footer">
+                    <a href="./index.php" type="button" class="btn btn-primary">Back</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+      <?php
           }
         }
-        // $db->close();
       ?>
     </div>
 

@@ -15,10 +15,23 @@
       <h1>Inventory Management System</h1>
       <p>Created by Adam Laviguer and Hammad Qureshi</p>
     </div>
+    
+    <div class="container text-end" style="margin-top: 25px;">
+      <div class="dropdown dropend">
+        <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+          <?php 
+            session_start();
+            echo $_SESSION['userName'];
+          ?>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton1">
+          <li><a class="dropdown-item" href="./index.php" type="" id="logout">Log out</a></li>
+        </ul>
+      </div>
+    </div>
 
     <?php
       session_start();
-      echo $_SESSION['userType'];
       if ($_SESSION['userType'] != "procurement") {
         echo "<div class=\"container text-center\" style=\"margin-top: 25px; max-width: 480px;\">
                 <h3>You do not have access to that page.<br>Click <a href=\"./index.php\">here</a> to log in.</h3>

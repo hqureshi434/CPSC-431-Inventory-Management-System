@@ -17,6 +17,13 @@
     </div>
 
     <div class="container" style="margin-top: 25px; max-width: 480px;">
+      <?php
+        session_start();
+        $_SESSION['userType'] = "";
+        $_SESSION['userName'] = "";
+        $userName = "";
+        $password = "";
+      ?>
       <h3>Please Log In</h3>
         <form action="./login.php" method="post" enctype="multipart/form-data">
           <div class="form-group" style="padding: 6px;">
