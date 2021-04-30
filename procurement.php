@@ -28,7 +28,7 @@
       <div class="container" style="margin-top: 25px;">
         <div class="container d-flex justify-content-end" style="margin-top: 25px;">
           <input class="btn btn-primary" style="margin: 15px;" type="submit" value="Add New Item">
-          <input class="btn btn-primary" style="margin: 15px;" type="submit" value="Change Item Qty">
+          <input class="btn btn-primary" style="margin: 15px;" type="submit" value="Change Item Qty" disabled>
           <input class="btn btn-primary" style="margin: 15px;" type="submit" value="Change Item Price">
         </div>
         <div class="container" style="margin-top: 25px;">
@@ -39,7 +39,7 @@
               </div>
               <div class="col-sm">
                 <label for="itemQty" class="form-label">Quantity</label>
-                <input type="text" class="form-control" id="itemQty" value="0.0" required>
+                <input type="text" class="form-control" id="itemQty" value="0.0" required disabled>
               </div>
               <div class="col-sm">
                 <label for="itemPrice" class="form-label">Price</label>
