@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -45,33 +47,82 @@
           <input class="btn btn-primary" style="margin: 15px;" type="submit" value="Change Item Qty" id="inputQty">
           <input class="btn btn-primary" style="margin: 15px;" type="submit" value="Change Item Price" id="inputPrice" disabled>
         </div>
-        <div class="container" style="margin-top: 25px;">
-          <div class="container border border-dark shadow bg-body rounded" style="margin-top: 25px;">
-            <div class="row" style="margin: 10px; padding-bottom: 5px;">
-              <div class="col-sm">
-                <p>Item Name</p>
+
+        <?php
+          //REFER TO GALLERY.PHP (ASSIGNMENT 2) TO PROPERLY DISPLAY THE NAME, QTY, AND PRICE FOR THE DIV CONTAINER
+          //NAME AND VALUES NEEDS TO BE STORED IN GLOBAL ARRAY AND ITERATED THROUGH A FOR LOOP
+
+          // connect to db
+          //$db = new mysqli('mariadb', 'cs431s1', 'oong3aiK', 'cs431s1');
+          // Check database connection
+          //if (mysqli_connect_errno()) {
+            //echo "<p>Error: Could not connect to database.<br/>
+               // Please try again later.</p>";
+            //exit;
+          //}
+
+          // check if $userName is unique
+          //$result = $db->query("SELECT itemName FROM IMSitem");
+          //echo '$result';
+           
+          function ArrayData() {
+            $db = new mysqli('mariadb', 'cs431s1', 'oong3aiK', 'cs431s1');
+            if (mysqli_connect_errno()) {
+              echo '<p>Error: Could not connect to database.<br/>
+              Please try again later.</p>';
+              exit;
+            }
+        
+            $query = mysqli_query($db, "SELECT * FROM IMSitem");
+
+            $largeArr = array();
+            //Look through each row in the table
+            while($row = mysqli_fetch_assoc($query)){
+              //Adds each row into the array
+              $largeArr[] = $row;
+            }
+
+            return $largeArr;
+          }
+
+          $array = ArrayData();
+          $len = count($array);
+          for($row = 0; $row < $len; $row++) {
+            $iName = $array[$row]['itemName'];
+            $iPrice = $array[$row]['itemPrice'];
+            $iQty = $array[$row]['itemQty'];
+            echo '
+            <div class="container" style="margin-top: 25px;">
+              <div class="container border border-dark shadow bg-body rounded" style="margin-top: 25px;">
+                <div class="row" style="margin: 10px; padding-bottom: 5px;">
+                  <div class="col-sm">
+                    <p><b>Item Name </b>' .$iName. '</p>
+                  </div>
+                  <div class="col-sm">
+                    <label for="itemQty" class="form-label">Quantity</label>
+                    <input type="text" class="form-control" id="itemQty" value="<?php echo $iQty;?>" required>
+                  </div>
+                  <div class="col-sm">
+                    <label for="itemPrice" class="form-label">Price</label>
+                    <input type="text" class="form-control" id="itemPrice" value="$iPrice" required disabled>
+                  </div>
+                  <div class="col-sm text-end">
+                    <p>Picture</p>
+                  </div>
+                </div>
               </div>
-              <div class="col-sm">
-                <label for="itemQty" class="form-label">Quantity</label>
-                <input type="text" class="form-control" id="itemQty" value="0.0" required >
-              </div>
-              <div class="col-sm">
-                <label for="itemPrice" class="form-label">Price</label>
-                <input type="text" class="form-control" id="itemPrice" value="$0.00" required disabled>
-              </div>
-              <div class="col-sm text-end">
-                <p>Picture</p>
-              </div>
-            </div>
-          </div>
-        </div>
+            </div>';
+          }
+        ?>
       </div> 
     <?php
-      }
-
+    }
       //TODO: add code for submitting quantity changes (input from id="itemQty") to the database
       // on click of "inputQty" button, submit query to DB which updates the item qty with the value in the "itemQty" field
 
+      //if(inputQty is clicked){
+      // update the qty based on what the user inputted in the textbox to the database
+      //}  
     ?>
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
