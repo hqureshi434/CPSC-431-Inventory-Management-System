@@ -52,19 +52,6 @@
           //REFER TO GALLERY.PHP (ASSIGNMENT 2) TO PROPERLY DISPLAY THE NAME, QTY, AND PRICE FOR THE DIV CONTAINER
           //NAME AND VALUES NEEDS TO BE STORED IN GLOBAL ARRAY AND ITERATED THROUGH A FOR LOOP
 
-          // connect to db
-          //$db = new mysqli('mariadb', 'cs431s1', 'oong3aiK', 'cs431s1');
-          // Check database connection
-          //if (mysqli_connect_errno()) {
-            //echo "<p>Error: Could not connect to database.<br/>
-               // Please try again later.</p>";
-            //exit;
-          //}
-
-          // check if $userName is unique
-          //$result = $db->query("SELECT itemName FROM IMSitem");
-          //echo '$result';
-           
           function ArrayData() {
             $db = new mysqli('mariadb', 'cs431s1', 'oong3aiK', 'cs431s1');
             if (mysqli_connect_errno()) {
@@ -84,13 +71,13 @@
 
             return $largeArr;
           }
-
+        
           $array = ArrayData();
           $len = count($array);
-          for($row = 0; $row < $len; $row++) {
-            $iName = $array[$row]['itemName'];
-            $iPrice = $array[$row]['itemPrice'];
-            $iQty = $array[$row]['itemQty'];
+          for($row2 = 0; $row2 < $len; $row2++) {
+            $iName = $array[$row2]['itemName'];
+            $iPrice = $array[$row2]['itemPrice'];
+            $iQty = $array[$row2]['itemQty'];
             echo '
             <div class="container" style="margin-top: 25px;">
               <div class="container border border-dark shadow bg-body rounded" style="margin-top: 25px;">
@@ -104,7 +91,7 @@
                   </div>
                   <div class="col-sm">
                     <label for="itemPrice" class="form-label">Price</label>
-                    <input type="text" class="form-control" id="itemPrice" value="$iPrice" required disabled>
+                    <input type="text" class="form-control" id="itemPrice" value="<?php echo $iPrice;?>" required disabled>
                   </div>
                   <div class="col-sm text-end">
                     <p>Picture</p>
