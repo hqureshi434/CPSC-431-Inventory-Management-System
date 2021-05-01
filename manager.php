@@ -44,26 +44,61 @@
           <input class="btn btn-primary" style="margin: 15px;" type="submit" value="Change Item Qty" id="inputQty">
           <input class="btn btn-primary" style="margin: 15px;" type="submit" value="Change Item Price" id="inputPrice">
         </div>
-        <div class="container" style="margin-top: 25px;">
-          <div class="container border border-dark shadow bg-body rounded" style="margin-top: 25px;">
-            <div class="row" style="margin: 10px; padding-bottom: 5px;">
-              <div class="col-sm">
-                <p>Item Name</p>
-              </div>
-              <div class="col-sm">
-                <label for="itemQty" class="form-label">Quantity</label>
-                <input type="text" class="form-control" id="itemQty" value="0.0" required>
-              </div>
-              <div class="col-sm">
-                <label for="itemPrice" class="form-label">Price</label>
-                <input type="text" class="form-control" id="itemPrice" value="$0.00" required>
-              </div>
-              <div class="col-sm text-end">
-                <p>Picture</p>
+
+        <?php
+          //REFER TO GALLERY.PHP (ASSIGNMENT 2) TO PROPERLY DISPLAY THE NAME, QTY, AND PRICE FOR THE DIV CONTAINER
+          //NAME AND VALUES NEEDS TO BE STORED IN GLOBAL ARRAY AND ITERATED THROUGH A FOR LOOP
+
+          function ArrayData() {
+            $db = new mysqli('mariadb', 'cs431s1', 'oong3aiK', 'cs431s1');
+            if (mysqli_connect_errno()) {
+              echo '<p>Error: Could not connect to database.<br/>
+              Please try again later.</p>';
+              exit;
+            }
+        
+            $query = mysqli_query($db, "SELECT * FROM IMSitem");
+
+            $largeArr = array();
+            //Look through each row in the table
+            while($itemRow = mysqli_fetch_assoc($query)){
+              //Adds each row into the array
+              $largeArr[] = $itemRow;
+            }
+            return $largeArr;
+          }
+        
+          $array = ArrayData();
+          $len = count($array);
+          for($row2 = 0; $row2 < $len; $row2++) {
+            $iName = $array[$row2]['itemName'];
+            $iPrice = $array[$row2]['itemPrice'];
+            $iQty = $array[$row2]['itemQty'];
+            ?>
+            <div class="container" style="margin-top: 25px;">
+              <div class="container border border-dark shadow bg-body rounded" style="margin-top: 25px;">
+                <div class="row" style="margin: 10px; padding-bottom: 5px;">
+                  <div class="col-sm">
+                    <p><b>Item Name</b><br><?php echo $iName;?></p>
+                  </div>
+                  <div class="col-sm">
+                    <label for="itemQty" class="form-label">Quantity</label>
+                    <input type="text" class="form-control" id="itemQty" value="<?php echo $iQty;?>" required>
+                  </div>
+                  <div class="col-sm">
+                    <label for="itemPrice" class="form-label">Price</label>
+                    <input type="text" class="form-control" id="itemPrice" value="$<?php echo $iPrice;?>" required>
+                  </div>
+                  <div class="col-sm text-end">
+                    <p>Picture</p>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
+            <?php
+            ;
+          }
+        ?>
       </div> 
     <?php
       }

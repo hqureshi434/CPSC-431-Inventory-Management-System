@@ -64,11 +64,10 @@
 
             $largeArr = array();
             //Look through each row in the table
-            while($row = mysqli_fetch_assoc($query)){
+            while($itemRow = mysqli_fetch_assoc($query)){
               //Adds each row into the array
-              $largeArr[] = $row;
+              $largeArr[] = $itemRow;
             }
-
             return $largeArr;
           }
         
@@ -78,27 +77,29 @@
             $iName = $array[$row2]['itemName'];
             $iPrice = $array[$row2]['itemPrice'];
             $iQty = $array[$row2]['itemQty'];
-            echo '
+            ?>
             <div class="container" style="margin-top: 25px;">
               <div class="container border border-dark shadow bg-body rounded" style="margin-top: 25px;">
                 <div class="row" style="margin: 10px; padding-bottom: 5px;">
                   <div class="col-sm">
-                    <p><b>Item Name </b>' .$iName. '</p>
+                    <p><b>Item Name</b><br><?php echo $iName;?></p>
                   </div>
                   <div class="col-sm">
-                    <label for="itemQty" class="form-label">Quantity</label>
+                    <label for="itemQty" class="form-label"><b>Quantity</b></label>
                     <input type="text" class="form-control" id="itemQty" value="<?php echo $iQty;?>" required>
                   </div>
                   <div class="col-sm">
-                    <label for="itemPrice" class="form-label">Price</label>
-                    <input type="text" class="form-control" id="itemPrice" value="<?php echo $iPrice;?>" required disabled>
+                    <label for="itemPrice" class="form-label"><b>Price</b></label>
+                    <input type="text" class="form-control" id="itemPrice" value="$<?php echo $iPrice;?>" required disabled>
                   </div>
                   <div class="col-sm text-end">
-                    <p>Picture</p>
+                    <p><b>Picture</b></p>
                   </div>
                 </div>
               </div>
-            </div>';
+            </div>
+            <?php
+            ;
           }
         ?>
       </div> 
