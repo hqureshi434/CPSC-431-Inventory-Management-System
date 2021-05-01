@@ -82,11 +82,11 @@
                     <p><b>Item Name</b><br><?php echo $iName;?></p>
                   </div>
                   <div class="col-sm">
-                    <label for="itemQty" class="form-label">Quantity</label>
+                    <label for="itemQty" class="form-label"><b>Quantity</b></label>
                     <input type="text" class="form-control" id="itemQty" value="<?php echo $iQty;?>" required disabled>
                   </div>
                   <div class="col-sm">
-                    <label for="itemPrice" class="form-label">Price</label>
+                    <label for="itemPrice" class="form-label"><b>Price</b></label>
                     <input type="text" class="form-control" id="itemPrice" value="<?php echo $iPrice;?>" required>
                   </div>
                   <div class="col-sm text-end">
