@@ -82,7 +82,7 @@
               <div class="container border border-dark shadow bg-body rounded" style="margin-top: 25px;">
                 <div class="row" style="margin: 10px; padding-bottom: 5px;">
                   <div class="col-sm">
-                    <p><b>Item Name</b><br><?php echo $iName;?></p>
+                    <p><b>Item Price</b><br><?php echo $iName;?></p>
                   </div>
                   <div class="col-sm">
                     <label for="itemQty" class="form-label"><b>Quantity</b></label>
@@ -107,10 +107,50 @@
     }
       //TODO: add code for submitting quantity changes (input from id="itemQty") to the database
       // on click of "inputQty" button, submit query to DB which updates the item qty with the value in the "itemQty" field
-
       //if(inputQty is clicked){
       // update the qty based on what the user inputted in the textbox to the database
-      //}  
+      //}
+      
+      if(isset($_POST['inputQty'])){
+        updateQty();
+      }
+
+      function updateQty(){
+        $db = new mysqli('mariadb', 'cs431s1', 'oong3aiK', 'cs431s1');
+        if (mysqli_connect_errno()) {
+          echo '<p>Error: Could not connect to database.<br/>
+          Please try again later.</p>';
+          exit;
+        }
+
+        //Add in name to verify that the right row is being updated
+        $itemQty = (string) $_POST['itemQty']; //Get the value that is currently stored in the textbox
+        $itemPrice = (string) $_POST['itemPrice']; //Get the price from the textbox
+
+
+        $array2 = ArrayData();
+        $length = count($array);
+        for($row3 = 0; $row3 < $length; $row3++){
+          $Quantity = $row3[$length]['itemQty']; //Quantity amount from the database
+          $Price = $row3[$length]['itemPrice']; //Price from the database
+          if($Quantity != $itemQty && $Price == $itemPrice){
+
+            $query = "UPDATE IMSitems SET itemQty='".$itemQty."' WHERE itemPrice='".$itemPrice."'"; //Still not done with this query
+            $stmt = $db->prepare($query);
+            $stmt->bind_param('s', $Quantity);
+            $stmt->execute();
+
+            if ($stmt->affected_rows > 0) {
+                echo  "<p>The updated quanitity has been pushed to the server.</p>";
+            } else {
+                echo "<p>An error has occurred.<br/>
+                The updated quantity was not pushed.</p>";
+            }
+            $db->close();     
+          }
+        }
+      }
+      
     ?>
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
