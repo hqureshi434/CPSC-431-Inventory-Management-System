@@ -42,10 +42,12 @@
       else { ?>
       <div class="container" style="margin-top: 25px;">
         <div class="container d-flex justify-content-end" style="margin-top: 25px;">
-          <input class="btn btn-primary" style="margin: 15px;" type="submit" value="Add New Item" id="inputItem" disabled>
-          <!-- on click of the button immediately below -->
-          <input class="btn btn-primary" style="margin: 15px;" type="submit" value="Change Item Qty" id="inputQty">
-          <input class="btn btn-primary" style="margin: 15px;" type="submit" value="Change Item Price" id="inputPrice" disabled>
+          <form action="inventory.php" method="post">
+            <input class="btn btn-primary" style="margin: 15px;" type="submit" value="Add New Item" id="inputItem" disabled>
+            <!-- on click of the button immediately below -->
+            <input class="btn btn-primary" style="margin: 15px;" type="submit" name="inputQty" value="Change Item Qty" id="inputQty">
+            <input class="btn btn-primary" style="margin: 15px;" type="submit" value="Change Item Price" id="inputPrice" disabled>
+          </form>
         </div>
 
         <?php
@@ -111,11 +113,13 @@
       // update the qty based on what the user inputted in the textbox to the database
       //}
       
-      if(isset($_POST['inputQty'])){
+      
+      if(isset($_POST["inputQty"])){
+        //echo "The button has been clicked";
         updateQty();
       }
 
-      function updateQty(){
+      function updateQty() {
         $db = new mysqli('mariadb', 'cs431s1', 'oong3aiK', 'cs431s1');
         if (mysqli_connect_errno()) {
           echo '<p>Error: Could not connect to database.<br/>
@@ -124,23 +128,19 @@
         }
 
         //Add in name to verify that the right row is being updated
-        $itemQty = (string) $_POST['itemQty']; //Get the value that is currently stored in the textbox
+        $itemQty = (string) $_POST['itemQty']; //Get the quantity from the textbox
         $itemPrice = (string) $_POST['itemPrice']; //Get the price from the textbox
-
 
         $array2 = ArrayData();
         $length = count($array);
         for($row3 = 0; $row3 < $length; $row3++){
           $Quantity = $row3[$length]['itemQty']; //Quantity amount from the database
           $Price = $row3[$length]['itemPrice']; //Price from the database
+
           if($Quantity != $itemQty && $Price == $itemPrice){
-
-            $query = "UPDATE IMSitems SET itemQty='".$itemQty."' WHERE itemPrice='".$itemPrice."'"; //Still not done with this query
-            $stmt = $db->prepare($query);
-            $stmt->bind_param('s', $Quantity);
-            $stmt->execute();
-
-            if ($stmt->affected_rows > 0) {
+            $query = "UPDATE IMSitems SET itemQty= " . $itemQty . " WHERE itemPrice= ". $itemPrice .""; 
+          
+            if ($db->query($query) == TRUE) {
                 echo  "<p>The updated quanitity has been pushed to the server.</p>";
             } else {
                 echo "<p>An error has occurred.<br/>
@@ -152,9 +152,16 @@
       }
       
     ?>
+    
+    <!--<script>
+        $("#inputQty").on("change", updateQty()) {
+            alert('Text content changed!');
+        });
+    </script>-->
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
   </body>
 </html>
