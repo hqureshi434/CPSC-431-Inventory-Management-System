@@ -1,4 +1,6 @@
-
+<?php
+  ini_set('display_errors', 1);
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -62,11 +64,11 @@
               exit;
             }
         
-            $query = mysqli_query($db, "SELECT * FROM IMSitem");
+            $statement = mysqli_query($db, "SELECT * FROM IMSitem");
 
             $largeArr = array();
             //Look through each row in the table
-            while($itemRow = mysqli_fetch_assoc($query)){
+            while($itemRow = mysqli_fetch_assoc($statement)){
               //Adds each row into the array
               $largeArr[] = $itemRow;
             }
@@ -84,7 +86,9 @@
               <div class="container border border-dark shadow bg-body rounded" style="margin-top: 25px;">
                 <div class="row" style="margin: 10px; padding-bottom: 5px;">
                   <div class="col-sm">
-                    <p><b>Item Price</b><br><?php echo $iName;?></p>
+                    <!--<p><b>Item Name</b><br><?//php echo $iName;?></p>-->
+                    <label for="itemName" class="form-label"><b>Item Name</b></label>
+                    <input type="text" class="form-control" id="itemName" name="itemName" value="<?php echo $iName;?>" required disabled>
                   </div>
                   <div class="col-sm">
                     <label for="itemQty" class="form-label"><b>Quantity</b></label>
@@ -112,42 +116,43 @@
       //if(inputQty is clicked){
       // update the qty based on what the user inputted in the textbox to the database
       //}
-      
-      
+  
       if(isset($_POST["inputQty"])){
         //echo "The button has been clicked";
         updateQty();
       }
 
       function updateQty() {
-        $db = new mysqli('mariadb', 'cs431s1', 'oong3aiK', 'cs431s1');
-        if (mysqli_connect_errno()) {
-          echo '<p>Error: Could not connect to database.<br/>
-          Please try again later.</p>';
-          exit;
-        }
-
-        //Add in name to verify that the right row is being updated
-        $itemQty = (string) $_POST['itemQty']; //Get the quantity from the textbox
-        $itemPrice = (string) $_POST['itemPrice']; //Get the price from the textbox
+        //Have to use Javascript/Jquery for detecting change in text box
+        
+        $itemQty = (int) $_POST['itemQty']; //Get the quantity from the textbox
+        $itemPrice = (float) $_POST['itemPrice']; //Get the price from the textbox
+        $itemName = (string) $_POST['itemName']; //Get the name from the textbox
 
         $array2 = ArrayData();
-        $length = count($array);
+        $length = count($array2);
         for($row3 = 0; $row3 < $length; $row3++){
+          $db = new mysqli('mariadb', 'cs431s1', 'oong3aiK', 'cs431s1');
+          if (mysqli_connect_errno()) {
+            echo '<p>Error: Could not connect to database.<br/>
+            Please try again later.</p>';
+            exit;
+          }
+  
+          echo "Inside the for loop";
           $Quantity = $row3[$length]['itemQty']; //Quantity amount from the database
           $Price = $row3[$length]['itemPrice']; //Price from the database
+          $Name = $row3[$length]['itemName']; //Name from the database
 
-          if($Quantity != $itemQty && $Price == $itemPrice){
-            $query = "UPDATE IMSitems SET itemQty= " . $itemQty . " WHERE itemPrice= ". $itemPrice .""; 
-          
-            if ($db->query($query) == TRUE) {
-                echo  "<p>The updated quanitity has been pushed to the server.</p>";
-            } else {
-                echo "<p>An error has occurred.<br/>
-                The updated quantity was not pushed.</p>";
-            }
-            $db->close();     
+          $statement = "UPDATE IMSitem SET itemQty= ' . $itemQty . ' WHERE itemName= ' . $itemName . '";
+
+          if ($db->query($statement) === TRUE) {
+              echo "<p>The updated quanitity has been pushed to the server.</p>";
+          } else {
+              echo "<p>An error has occurred.<br/>
+              The updated quantity was not pushed.</p>";
           }
+          $db->close();
         }
       }
       
