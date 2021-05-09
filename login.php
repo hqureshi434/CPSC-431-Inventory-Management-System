@@ -34,7 +34,6 @@
       <?php
       
         if(isset($_POST['loginBtn'])) {
-          //authUserLogin();
           login($userName, $password);
         }
 

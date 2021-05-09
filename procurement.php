@@ -37,68 +37,117 @@
                 <h3>You do not have access to that page.<br>Click <a href=\"./index.php\">here</a> to log in.</h3>
               </div>";
       }
-      else { ?>
+      else { 
+        $_SESSION['currentPage'] = "procurement"; //using a "current page" session variable to track which page the user came from after udpating the database
+        ?>
       <div class="container" style="margin-top: 25px;">
-        <div class="container d-flex justify-content-end" style="margin-top: 25px;">
-          <input class="btn btn-primary" style="margin: 15px;" type="submit" value="Add New Item" id="inputItem">
-          <input class="btn btn-primary" style="margin: 15px;" type="submit" value="Change Item Qty" id="inputQty" disabled>
-          <input class="btn btn-primary" style="margin: 15px;" type="submit" value="Change Item Price" id="inputPrice">
-        </div>
+        <div class="row">
+          <div class="col">
+            <?php
+              //REFER TO GALLERY.PHP (ASSIGNMENT 2) TO PROPERLY DISPLAY THE NAME, QTY, AND PRICE FOR THE DIV CONTAINER
+              //NAME AND VALUES NEEDS TO BE STORED IN GLOBAL ARRAY AND ITERATED THROUGH A FOR LOOP
 
-        <?php
-          //REFER TO GALLERY.PHP (ASSIGNMENT 2) TO PROPERLY DISPLAY THE NAME, QTY, AND PRICE FOR THE DIV CONTAINER
-          //NAME AND VALUES NEEDS TO BE STORED IN GLOBAL ARRAY AND ITERATED THROUGH A FOR LOOP
+              function ArrayData() {
+                $db = new mysqli('mariadb', 'cs431s1', 'oong3aiK', 'cs431s1');
+                if (mysqli_connect_errno()) {
+                  echo '<p>Error: Could not connect to database.<br/>
+                  Please try again later.</p>';
+                  exit;
+                }
+            
+                $query = mysqli_query($db, "SELECT * FROM IMSitem");
 
-          function ArrayData() {
-            $db = new mysqli('mariadb', 'cs431s1', 'oong3aiK', 'cs431s1');
-            if (mysqli_connect_errno()) {
-              echo '<p>Error: Could not connect to database.<br/>
-              Please try again later.</p>';
-              exit;
-            }
-        
-            $query = mysqli_query($db, "SELECT * FROM IMSitem");
-
-            $largeArr = array();
-            //Look through each row in the table
-            while($itemRow = mysqli_fetch_assoc($query)){
-              //Adds each row into the array
-              $largeArr[] = $itemRow;
-            }
-            return $largeArr;
-          }
-        
-          $array = ArrayData();
-          $len = count($array);
-          for($row2 = 0; $row2 < $len; $row2++) {
-            $iName = $array[$row2]['itemName'];
-            $iPrice = $array[$row2]['itemPrice'];
-            $iQty = $array[$row2]['itemQty'];
-            ?>
-            <div class="container" style="margin-top: 25px;">
-              <div class="container border border-dark shadow bg-body rounded" style="margin-top: 25px;">
-                <div class="row" style="margin: 10px; padding-bottom: 5px;">
-                  <div class="col-sm">
-                    <p><b>Item Name</b><br><?php echo $iName;?></p>
-                  </div>
-                  <div class="col-sm">
-                    <label for="itemQty" class="form-label"><b>Quantity</b></label>
-                    <input type="text" class="form-control" id="itemQty" value="<?php echo $iQty;?>" required disabled>
-                  </div>
-                  <div class="col-sm">
-                    <label for="itemPrice" class="form-label"><b>Price</b></label>
-                    <input type="text" class="form-control" id="itemPrice" value="<?php echo $iPrice;?>" required>
-                  </div>
-                  <div class="col-sm text-end">
-                    <p>Picture</p>
+                $largeArr = array();
+                //Look through each row in the table
+                while($itemRow = mysqli_fetch_assoc($query)){
+                  //Adds each row into the array
+                  $largeArr[] = $itemRow;
+                }
+                return $largeArr;
+              }
+            
+              $array = ArrayData();
+              $len = count($array);
+              for($row2 = 0; $row2 < $len; $row2++) {
+                $iName = $array[$row2]['itemName'];
+                $iPrice = $array[$row2]['itemPrice'];
+                $iQty = $array[$row2]['itemQty'];
+                ?>
+                <div class="container" style="">
+                  <div class="container border border-dark shadow bg-body rounded" style="margin-top: 25px;">
+                    <div class="row" style="margin: 10px; padding-bottom: 5px;">
+                      <div class="col-sm">
+                        <p><b>Item Name</b><br><?php echo $iName;?></p>
+                      </div>
+                      <div class="col-sm">
+                        <p><b>Quantity</b><br><?php echo $iQty;?></p>
+                      </div>
+                      <div class="col-sm">
+                        <p><b>Price</b><br><?php echo "$".$iPrice;?></p>
+                      </div>
+                      <div class="col-sm text-end">
+                        <p><b>Picture</b></p>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
+                <?php
+                ;
+              }
+            ?>
+          </div>
+
+          <div class="col">
+            <div class="container d-flex justify-content-end" style="">
+              <form action="updateDB.php" method="post">
+                <div class="container" style="margin-top: 25px;">
+                  <div class="container border border-dark shadow bg-body rounded" style="margin-top: 25px;">
+                    <input class="btn btn-primary" style="margin: 15px;" type="submit" value="Add New Item" id="inputItem" name="inputItem">
+                    <div class="row" style="margin: 10px; padding-bottom: 5px;">
+                      <div class="col-sm">
+                        <!--<p><b>Item Name</b><br><?//php echo $iName;?></p>-->
+                        <label for="itemName" class="form-label"><b>Item Name</b></label>
+                        <input type="text" class="form-control" id="itemName" name="itemName" value="" required >
+                      </div>
+                      <div class="col-sm">
+                        <label for="itemQty" class="form-label"><b>Quantity</b></label>
+                        <input type="text" class="form-control" id="itemQty" name="itemQty" value="" required >
+                      </div>
+                      <div class="col-sm">
+                        <label for="itemPrice" class="form-label"><b>Price</b></label>
+                        <input type="text" class="form-control" id="itemPrice" name="itemPrice" value="" required >
+                      </div>
+                      <div class="col-sm">
+                        <label for="itemPic" class="form-label"><b>Picture</b></label>
+                        <input type="text" class="form-control" id="itemPic" name="itemPic" value="" required >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
             </div>
-            <?php
-            ;
-          }
-        ?>
+            <div class="container d-flex justify-content-end" style="">
+              <form action="updateDB.php" method="post">
+                <div class="container" style="margin-top: 25px;">
+                  <div class="container border border-dark shadow bg-body rounded" style="margin-top: 25px;">
+                    <input class="btn btn-primary" style="margin: 15px;" type="submit" value="Change Item Price" id="inputPrice" name="inputPrice">
+                    <div class="row" style="margin: 10px; padding-bottom: 5px;">
+                      <div class="col-sm">
+                        <!--<p><b>Item Name</b><br><?//php echo $iName;?></p>-->
+                        <label for="itemName" class="form-label"><b>Item Name</b></label>
+                        <input type="text" class="form-control" id="itemName" name="itemName" value="" required >
+                      </div>
+                      <div class="col-sm">
+                        <label for="itemPrice" class="form-label"><b>Price</b></label>
+                        <input type="text" class="form-control" id="itemPrice" name="itemPrice" value="" required >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
       </div> 
     <?php
       }
