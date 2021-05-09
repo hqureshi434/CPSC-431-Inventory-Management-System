@@ -37,7 +37,9 @@
                 <h3>You do not have access to that page.<br>Click <a href=\"./index.php\">here</a> to log in.</h3>
               </div>";
       }
-      else { ?>
+      else { 
+        $_SESSION['currentPage'] = 'manager'; //using a "current page" session variable to track which page the user came from after udpating the database
+        ?>
       <div class="container" style="margin-top: 25px;">
         <div class="row">
           <div class="col">
@@ -116,6 +118,10 @@
                     </div>
                   </div>
                 </div>
+              </form>
+            </div>
+            <div class="container d-flex justify-content-end" style="">
+              <form action="updateDB.php" method="post">
                 <div class="container" style="margin-top: 25px;">
                   <div class="container border border-dark shadow bg-body rounded" style="margin-top: 25px;">
                     <input class="btn btn-primary" style="margin: 15px;" type="submit" value="Add New Item" id="inputItem" name="inputItem">
@@ -140,6 +146,10 @@
                     </div>
                   </div>
                 </div>
+              </form>
+            </div>
+            <div class="container d-flex justify-content-end" style="">   
+              <form action="updateDB.php" method="post">
                 <div class="container" style="margin-top: 25px;">
                   <div class="container border border-dark shadow bg-body rounded" style="margin-top: 25px;">
                     <input class="btn btn-primary" style="margin: 15px;" type="submit" value="Change Item Price" id="inputPrice" name="inputPrice">
