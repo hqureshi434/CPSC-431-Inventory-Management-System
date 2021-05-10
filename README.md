@@ -8,16 +8,27 @@
 [Project] (http://ecs.fullerton.edu/~cs431s1/P1/)
 
 ### Introduction
-The goal of the project is to create an online Inventory Management System (IMS) for retailers. 
+The goal of the project is to create an online Inventory Management System (IMS) for retailers.
+
+### How to Use the Application
+1. Log in with one of the premade logins
+	* Username: inventory@ims.com | Password: inventory2021
+	* Username: procurement@ims.com | Password: procurement2021
+	* Username: manager@ims.com | Password: manager2021
+2. Depending on which login you chose (provided above), you'll have certain permissions which match the use-cases described below.
+3. The Item Name must be provided for each transaction performed within the Inventory Management System, so don't leave that part out!
+
 #### Use-cases
 1. Add new Item Record to the Inventory Management System
 	1. Actor(s):
 		1. Procurement
+		2. Manager
 	2. Description:
 		1. Procurement will add new Item Records to the IMS (Inventory Management System). The Item Record will have a Name, Price, Onhand Quantity, and Photo.
 2. Change the price of an Item Record
 	1. Actor(s):
 		1. Procurement
+		2. Manager
 	2. Description:
 		1. Procurement will be able to change the price of an item record from the Inventory screen.
 3. Log-in to the Inventory Management System
@@ -33,18 +44,18 @@ The goal of the project is to create an online Inventory Management System (IMS)
 		2. Manager
 	2. Description:
 		1. The Manager or Inventory Control will be able to change the current Onhand Quantity from the Inventory Screen.
-5. Change the price and quantity for a certain Item Record
+5. Delete and Item Record
 	1. Actor(s):
-		1. Managers
+		1. Manager
+		2. Procurement
 	2. Description:
-		1. Managers will be able to change the Price of a certain Item Record from the Inventory Screen.
-		2. Managers will be able to change the Quantity of a certain Item Record from the Inventory Screen.
+		1. The Manager or Procurement will be able to delete an Item Record (from the database and the photo repository)
 
 #### Planned Features
 1. File uploads
 2. Database access
 3. Access Control (Log in/log out functionality)
-4. E-Mail
+4. Session Handling
 5. Input validation
 
 ### Contribution breakdown:
