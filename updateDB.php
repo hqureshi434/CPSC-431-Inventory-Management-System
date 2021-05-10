@@ -1,4 +1,4 @@
-
+<?php ini_set('display_errors', 1); ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -23,6 +23,9 @@
 
     <script>
       $(document).ready(function(){
+          $("#itemFound").modal('show');
+      });
+      $(document).ready(function(){
           $("#noItemFound").modal('show');
       });
     </script>
@@ -33,7 +36,7 @@
             $itemName = (string) $_POST['itemName']; //Get the name from the textbox
             $itemQty = (int) $_POST['itemQty']; //Get the quantity from the textbox
             $itemPrice = (float) $_POST['itemPrice']; //Get the price from the textbox
-            $itemPic = "";
+            $itemPic = (string) $_FILES['itemPic']['name'];
 
             $db2 = new mysqli('mariadb', 'cs431s1', 'oong3aiK', 'cs431s1');
             if ($db2->connect_errno) {
@@ -45,20 +48,21 @@
             }
 
             if(isset($_POST['inputQty'])){
-              if (itemCheck($db2, $itemName) === TRUE) {
+              if (itemExists($db2, $itemName) === TRUE) {
                 updateItemQty($db2, $itemName, $itemQty);
               }
             }
 
             if(isset($_POST['inputPrice'])){
-              if (itemCheck($db2, $itemName) === TRUE) {
+              if (itemExists($db2, $itemName) === TRUE) {
                 updateItemPrice($db2, $itemName, $itemPrice);
               }
             }
 
             if(isset($_POST['inputItem'])){
-              if (itemCheck($db2, $itemName) === TRUE) {
+              if (itemNotFound($db2, $itemName) === TRUE) {
                 addItem($db2, $itemName, $itemQty, $itemPrice, $itemPic);
+                uploadPhoto($itemPic);
               }
             }
 
@@ -96,9 +100,9 @@
               }
             }
 
-            function addItem($db2, $itemName, $itemQty, $itemPrice) {
-              if ($db2->query("INSERT IMSitem SET itemPrice = '".$itemPrice."' WHERE itemName = '".$itemName."'") === TRUE) {
-                  //echo "The updated price has been pushed to the server.<br>";
+            function addItem($db2, $itemName, $itemQty, $itemPrice, $itemPic) {
+              if ($db2->query("INSERT INTO IMSitem VALUES ('".$itemName."','".$itemQty."','".$itemPrice."','".$itemPic."')") === TRUE) {
+                  echo "The new item has been pushed to the server.<br>";
               }
               else {
                   echo "An error has occurred.<br>The item was not added.";
@@ -113,8 +117,93 @@
               }
             }
 
-            function itemCheck($db2, $itemName) {
+            function uploadPhoto($itemPic) {
+              $target_dir = "photoUploads/";
+              $target_file = $target_dir . basename($_FILES["itemPic"]["name"]);
+              $uploadOk = 1;
+              $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+
+              // Check if image file is a actual image or fake image
+              $check = getimagesize($_FILES["itemPic"]["tmp_name"]);
+              if($check !== false) {
+                echo "File is an image - " . $check["mime"] . ".";
+                $uploadOk = 1;
+              } else {
+                echo "File is not an image.";
+                $uploadOk = 0;
+              }
+
+              // Check if file already exists
+              if (file_exists($target_file)) {
+                echo "Sorry, file already exists.<br>";
+                $uploadOk = 0;
+              }
+
+              // // Check file size
+              // if ($_FILES["fileToUpload"]["size"] > 500000) {
+              //   echo "Sorry, your file is too large.";
+              //   $uploadOk = 0;
+              // }
+
+              // Allow certain file formats
+              if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+              && $imageFileType != "gif" ) {
+                echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.<br>";
+                $uploadOk = 0;
+              }
+
+              // Check if $uploadOk is set to 0 by an error
+              if ($uploadOk == 0) {
+                echo "Sorry, your file was not uploaded.";
+              // if everything is ok, try to upload file
+              } else {
+                if (move_uploaded_file($_FILES["itemPic"]["tmp_name"], $target_file)) {
+                  echo "The file ". htmlspecialchars( basename( $_FILES["itemPic"]["name"])). " has been uploaded.";
+                } else {
+                  echo "Sorry, there was an error uploading your file.<br>";
+                }
+              }
+            }
+
+            function itemExists($db2, $itemName) {
               if (mysqli_num_rows($db2->query("SELECT itemName FROM IMSitem WHERE itemName = '".$itemName."'")) > 0) {
+                return TRUE;
+              }
+              else {
+                //IF statements to return the user to the appropriate page
+                if ($_SESSION['currentPage'] == "procurement") { //if the user was last on the Procurement.php page, return them there
+                  $page = "./procurement.php";
+                }
+                else if ($_SESSION['currentPage'] == "manager") { //if the user was last on the Manager.php page, return them there
+                  $page = "./manager.php";
+                }
+                else if ($_SESSION['currentPage'] == "inventory") { //if the user was last on the Inventory.php page, return them there
+                  $page = "./inventory.php";
+                }
+                ?>
+                <!-- Modal -->
+                <div class="modal fade" id="itemFound" tabindex="-1" aria-labelledby="itemFound" aria-hidden="true"  data-bs-backdrop="static">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="itemFound">Error</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        Item not found.<br>Please enter an Item Name that already exists, or add a new item.
+                      </div>
+                      <div class="modal-footer">
+                        <a href="<?php echo $page ?>" type="button" class="btn btn-primary">Back</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              <?php
+              }
+            }
+
+            function itemNotFound($db2, $itemName) {
+              if (mysqli_num_rows($db2->query("SELECT itemName FROM IMSitem WHERE itemName = '".$itemName."'")) === 0) {
                 return TRUE;
               }
               else {
@@ -138,7 +227,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       <div class="modal-body">
-                        Item not found.<br>Please enter an Item Name that already exists, or add a new item.
+                        Item already found.<br>Please enter an Item Name that does not exist.
                       </div>
                       <div class="modal-footer">
                         <a href="<?php echo $page ?>" type="button" class="btn btn-primary">Back</a>
@@ -149,7 +238,7 @@
               <?php
               }
             }
-          ?>
+        ?>
     </div>
 
 

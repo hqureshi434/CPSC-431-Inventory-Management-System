@@ -72,9 +72,10 @@
                 $iName = $array[$row2]['itemName'];
                 $iPrice = $array[$row2]['itemPrice'];
                 $iQty = $array[$row2]['itemQty'];
+                $iPic = $array[$row2]['itemPic'];
                 ?>
                 <div class="container" style="">
-                  <div class="container border border-dark shadow bg-body rounded" style="margin-top: 25px;">
+                  <div class="container border border-dark shadow bg-body rounded" style="margin-top: 25px; margin-bottom: 25px;">
                     <div class="row" style="margin: 10px; padding-bottom: 5px;">
                       <div class="col-sm">
                         <p><b>Item Name</b><br><?php echo $iName;?></p>
@@ -85,8 +86,11 @@
                       <div class="col-sm">
                         <p><b>Price</b><br><?php echo "$".$iPrice;?></p>
                       </div>
-                      <div class="col-sm text-end">
+                      <div class="col-sm">
                         <p><b>Picture</b></p>
+                        <div class="thumbnail border border-1 border-dark">
+                          <img src="./photoUploads/<?php echo $iPic ?>" alt="..." style="width:100%">
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -121,7 +125,7 @@
               </form>
             </div>
             <div class="container d-flex justify-content-end" style="">
-              <form action="updateDB.php" method="post">
+              <form action="updateDB.php" method="post" enctype="multipart/form-data">
                 <div class="container" style="margin-top: 25px;">
                   <div class="container border border-dark shadow bg-body rounded" style="margin-top: 25px;">
                     <input class="btn btn-primary" style="margin: 15px;" type="submit" value="Add New Item" id="inputItem" name="inputItem">
@@ -139,9 +143,11 @@
                         <label for="itemPrice" class="form-label"><b>Price</b></label>
                         <input type="text" class="form-control" id="itemPrice" name="itemPrice" value="" required >
                       </div>
+                    </div>
+                    <div class="row" style="margin: 10px; padding-bottom: 5px;">
                       <div class="col-sm">
                         <label for="itemPic" class="form-label"><b>Picture</b></label>
-                        <input type="text" class="form-control" id="itemPic" name="itemPic" value="" required >
+                        <input type="file" class="form-control" name="itemPic" id="itemPic">
                       </div>
                     </div>
                   </div>
