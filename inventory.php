@@ -102,21 +102,18 @@
 
           <div class="col">
             <div class="container d-flex justify-content-end" style="">
-              <form action="updateDB.php" method="post">
-                <!-- on click of the button immediately below -->
-
+              <form action="updateDB.php" method="post" enctype="multipart/form-data">
                 <div class="container" style="margin-top: 25px;">
                   <div class="container border border-dark shadow bg-body rounded" style="margin-top: 25px;">
                     <input class="btn btn-primary" style="margin: 15px;" type="submit" value="Change Item Qty" id="inputQty" name="inputQty">
                     <div class="row" style="margin: 10px; padding-bottom: 5px;">
                       <div class="col-sm">
-                        <!--<p><b>Item Name</b><br><?//php echo $iName;?></p>-->
                         <label for="itemName" class="form-label"><b>Item Name</b></label>
                         <input type="text" class="form-control" id="itemName" name="itemName" value="" required>
                       </div>
                       <div class="col-sm">
                         <label for="itemQty" class="form-label"><b>Quantity</b></label>
-                        <input type="text" class="form-control" id="itemQty" name="itemQty" value="" required>
+                        <input type="number" class="form-control" id="itemQty" name="itemQty" value="" required>
                       </div>
                     </div>
                   </div>
@@ -128,12 +125,6 @@
       </div> 
     <?php
     }
-      //TODO: add code for submitting quantity changes (input from id="itemQty") to the database
-      // on click of "inputQty" button, submit query to DB which updates the item qty with the value in the "itemQty" field
-
-      //if(inputQty is clicked){
-      // update the qty based on what the user inputted in the textbox to the database
-      //}  
     ?>
 
     <!-- Option 1: Bootstrap Bundle with Popper -->

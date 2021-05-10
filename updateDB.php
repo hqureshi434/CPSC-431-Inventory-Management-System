@@ -66,6 +66,12 @@
               }
             }
 
+            if(isset($_POST['deleteItem'])){
+              if (itemExists($db2, $itemName) === TRUE) {
+                deleteItem($db2, $itemName);
+              }
+            }
+
             function updateItemQty($db2, $itemName, $itemQty) {
                 if ($db2->query("UPDATE IMSitem SET itemQty = '".$itemQty."' WHERE itemName = '".$itemName."'") === TRUE) {
                   echo "The updated quanitity has been pushed to the server.<br>";
@@ -162,6 +168,27 @@
                 } else {
                   echo "Sorry, there was an error uploading your file.<br>";
                 }
+              }
+            }
+
+            function deleteItem($db2, $itemName) {
+              $deleteImg = $db2->query("SELECT itemPic FROM IMSitem WHERE itemName = '".$itemName."'");
+              if ($db2->query("DELETE FROM IMSitem WHERE itemName = '".$itemName."'") === TRUE) {
+                echo "The new item has been removed from the server.<br>";
+                while ($delete = $deleteImg->fetch_assoc()) {
+                  unlink("photoUploads/".$delete['itemPic']);
+                }
+              }
+              else {
+                  echo "An error has occurred.<br>The item was not removed.";
+              }
+
+              //IF statements to return the user to the appropriate page
+              if ($_SESSION['currentPage'] == "procurement") { //if the user was last on the Procurement.php page, return them there
+                header("Location: ./procurement.php");
+              }
+              else if ($_SESSION['currentPage'] == "manager") { //if the user was last on the Manager.php page, return them there
+                header("Location: ./manager.php");
               }
             }
 
