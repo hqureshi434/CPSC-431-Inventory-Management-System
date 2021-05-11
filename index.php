@@ -32,7 +32,7 @@
           </div>
           <div class="form-group" style="padding: 6px;">
             <label for="password">Password:</label>
-            <input type="text" class="form-control" name="password" id="password">
+            <input type="password" class="form-control" name="password" id="password">
           </div>
           <div class="form-group text-center" style="padding: 6px;">
             <button type="submit" class="btn btn-primary" name="loginBtn">Log In</button>
