@@ -73,13 +73,27 @@
             }
 
             function updateItemQty($db2, $itemName, $itemQty) {
+                $sql = "UPDATE IMSitem SET itemQty = ? WHERE itemName = ?";
+                $stmt = $db2->prepare($sql);
+                $stmt->bind_param('ds', $itemQty, $itemName);
+                $stmt->execute();
+
+                if($stmt->error){
+                  sleep(2);
+                  echo "An error has occurred.<br>The updated quantity was not pushed." . $stmt->error;
+                }
+                else{
+                  echo "The updated quanitity has been pushed to the server.<br>";
+                }
+                /*
                 if ($db2->query("UPDATE IMSitem SET itemQty = '".$itemQty."' WHERE itemName = '".$itemName."'") === TRUE) {
                   echo "The updated quanitity has been pushed to the server.<br>";
                 }
                 else {
                   sleep(2);
                   echo "An error has occurred.<br>The updated quantity was not pushed.";
-                }
+                }*/
+
                 //IF statements to return the user to the appropriate page
                 if ($_SESSION['currentPage'] == "inventory") { //if the user was last on the Inventory.php page, return them there
                   header("Location: ./inventory.php");
@@ -87,15 +101,30 @@
                 else if ($_SESSION['currentPage'] == "manager") { //if the user was last on the Manager.php page, return them there
                   header("Location: ./manager.php");
                 }
+                
             }
 
             function updateItemPrice($db2, $itemName, $itemPrice) {
+              $sql = "UPDATE IMSitem SET itemPrice = ? WHERE itemName = ?";
+              $stmt = $db2->prepare($sql);
+              $stmt->bind_param('ds', $itemPrice, $itemName);
+              $stmt->execute();
+
+              if($stmt->error){
+                sleep(2);
+                echo "An error has occurred.<br>The updated price was not pushed." . $stmt->error;
+              }
+              else{
+                echo "The updated price has been pushed to the server.<br>";
+              }
+
+              /*
               if ($db2->query("UPDATE IMSitem SET itemPrice = '".$itemPrice."' WHERE itemName = '".$itemName."'") === TRUE) {
                   echo "The updated price has been pushed to the server.<br>";
               }
               else {
                   echo "An error has occurred.<br>The updated price was not pushed.";
-              }
+              }*/
 
               //IF statements to return the user to the appropriate page
               if ($_SESSION['currentPage'] == "procurement") { //if the user was last on the Procurement.php page, return them there
@@ -107,12 +136,26 @@
             }
 
             function addItem($db2, $itemName, $itemQty, $itemPrice, $itemPic) {
+              $sql = "INSERT INTO IMSitem VALUES (?, ?, ?, ?)";
+              $stmt = $db2->prepare($sql);
+              $stmt->bind_param('sdds', $itemName, $itemQty, $itemPrice, $itemPic);
+              $stmt->execute();
+
+              if($stmt->error){
+                sleep(2);
+                echo "An error has occurred.<br>The item was not added." . $stmt->error;
+              }
+              else{
+                echo "The new item has been pushed to the server.<br>";
+              }
+
+              /*
               if ($db2->query("INSERT INTO IMSitem VALUES ('".$itemName."','".$itemQty."','".$itemPrice."','".$itemPic."')") === TRUE) {
                   echo "The new item has been pushed to the server.<br>";
               }
               else {
                   echo "An error has occurred.<br>The item was not added.";
-              }
+              }*/
 
               //IF statements to return the user to the appropriate page
               if ($_SESSION['currentPage'] == "procurement") { //if the user was last on the Procurement.php page, return them there
@@ -172,6 +215,23 @@
             }
 
             function deleteItem($db2, $itemName) {
+              /*
+              $deleteImg = $db2->query("SELECT itemPic FROM IMSitem WHERE itemName = '".$itemName."'");
+              $sql = "DELETE FROM IMSitem WHERE itemName = ?"
+              $stmt = $db2->prepare($sql);
+              $stmt->bind_param('s', $itemName);
+              $stmt->execute();
+              if($stmt->error){
+                sleep(2);
+                echo "An error has occurred.<br>The item was not removed." . $stmt->error;
+              }
+              else{
+                echo "The item has been removed from the server.<br>";
+                while ($delete = $deleteImg->fetch_assoc()) {
+                  unlink("photoUploads/".$delete['itemPic']);
+                }
+              }*/
+
               $deleteImg = $db2->query("SELECT itemPic FROM IMSitem WHERE itemName = '".$itemName."'");
               if ($db2->query("DELETE FROM IMSitem WHERE itemName = '".$itemName."'") === TRUE) {
                 echo "The new item has been removed from the server.<br>";

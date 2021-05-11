@@ -41,6 +41,8 @@
           // check $userName and $password with db
           // if yes, return true
           // else throw exception
+
+          //$ShaPassword = sha1($password);
           
           // connect to db
           $db = new mysqli('mariadb', 'cs431s1', 'oong3aiK', 'cs431s1');
